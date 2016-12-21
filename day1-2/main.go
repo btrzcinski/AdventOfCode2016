@@ -12,20 +12,22 @@ type move struct {
 	amount    int
 }
 
-type position struct {
-	x int
-	y int
-}
+type Int int
 
-func abs_int(x int) int {
+func (x Int) abs() Int {
 	if x < 0 {
 		return -x
 	}
 	return x
 }
 
-func (p *position) dist() int {
-	return abs_int(p.x) + abs_int(p.y)
+type position struct {
+	x Int
+	y Int
+}
+
+func (p *position) dist() Int {
+	return p.x.abs() + p.y.abs()
 }
 
 func read_moves() []move {
