@@ -1,36 +1,40 @@
 package main
 
 import (
-    "bufio"
-    "fmt"
-    "os"
-    "strconv"
+	"bufio"
+	"fmt"
+	"os"
+	"strconv"
+	"strings"
 )
 
+func is_possible_triangle(a, b, c int) bool {
+	return a+b > c &&
+		b+c > a &&
+		a+c > b
+}
+
 func main() {
-    input_file, err := os.Open("input.txt")
-    if err != nil {
-        panic(err)
-    }
-    defer input_file.Close()
+	input_file, err := os.Open("input.txt")
+	if err != nil {
+		panic(err)
+	}
+	defer input_file.Close()
 
-    possible_triangles := 0
+	possible_triangles := 0
 
-    scanner := bufio.NewScanner(input_file)
-    scanner.Split(bufio.ScanWords)
-    for scanner.Scan() {
-        a, _ := strconv.Atoi(scanner.Text())
-        scanner.Scan()
-        b, _ := strconv.Atoi(scanner.Text())
-        scanner.Scan()
-        c, _ := strconv.Atoi(scanner.Text())
+	scanner := bufio.NewScanner(input_file)
+	for scanner.Scan() {
+		triangle := strings.Fields(scanner.Text())
 
-        if a + b > c &&
-           b + c > a &&
-           a + c > b {
-            possible_triangles += 1
-        }
-    }
+		a, _ := strconv.Atoi(triangle[0])
+		b, _ := strconv.Atoi(triangle[1])
+		c, _ := strconv.Atoi(triangle[2])
 
-    fmt.Printf("Possible triangles: %d\n", possible_triangles)
+		if is_possible_triangle(a, b, c) {
+			possible_triangles++
+		}
+	}
+
+	fmt.Printf("Possible triangles: %d\n", possible_triangles)
 }
